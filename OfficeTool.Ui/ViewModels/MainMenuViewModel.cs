@@ -1,5 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
-using OfficeTool.Core.Services;
+using OfficeTool.Ui.Services;
 using System;
 
 namespace OfficeTool.Ui.ViewModels;

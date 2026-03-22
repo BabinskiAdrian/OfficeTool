@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using OfficeTool.Core.Services;
+using OfficeTool.Ui.Services;
 
 namespace OfficeTool.Ui.ViewModels;
 

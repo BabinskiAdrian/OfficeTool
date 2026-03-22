@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace OfficeTool.Core.Shered;
+namespace OfficeTool.Core.Shared;
 
 public class ChecksumHelper
 {

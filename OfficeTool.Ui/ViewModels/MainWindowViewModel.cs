@@ -1,5 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using OfficeTool.Core.Services;
+using OfficeTool.Ui.Services;
 
 namespace OfficeTool.Ui.ViewModels;
 
