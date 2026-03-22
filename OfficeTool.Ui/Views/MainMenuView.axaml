@@ -1,8 +1,29 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="OfficeTool.Ui.Views.MainMenuView">
-  Welcome to Avalonia!
+             xmlns:vm="using:OfficeTool.Ui.ViewModels"
+             x:Class="OfficeTool.Ui.Views.MainMenuView"
+             x:DataType="vm:MainMenuViewModel">
+
+    <StackPanel HorizontalAlignment="Center" 
+                VerticalAlignment="Center" 
+                Spacing="30">
+        
+        <TextBlock Text="Office Tools - Menu Główne" 
+                   FontSize="28" 
+                   FontWeight="Bold" 
+                   HorizontalAlignment="Center" />
+        
+        <Button Command="{Binding OpenBackupConfigsCommand}"
+                Width="300" Height="100" 
+                HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                Background="#2d2d2d"
+                Cursor="Hand">
+            
+            <TextBlock Text="Modyfikator Configów ZIP&#x0a;(Backup Configs Changer)" 
+                       TextAlignment="Center" 
+                       FontSize="16"
+                       FontWeight="Medium"/>
+        </Button>
+
+    </StackPanel>
 </UserControl>

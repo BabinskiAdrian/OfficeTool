@@ -23,12 +23,13 @@ public partial class MainMenuViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void OpenBackupConfigsChanger()
+    private void OpenBackupConfigs()
     {
         // Open new view/window
         if (_dialogService != null)
         {
-            _navigateAction(new BackupConfigsViewModel(_dialogService, _navigateAction));
+            var newPage = new BackupConfigsViewModel(_dialogService, _navigateAction);
+            _navigateAction(newPage);
         }
     }
 
