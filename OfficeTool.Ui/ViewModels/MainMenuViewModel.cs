@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using OfficeTool.Core.BackupConfigs.Services;
 using OfficeTool.Ui.Services;
 using System;
 
@@ -8,12 +9,14 @@ public partial class MainMenuViewModel : ViewModelBase
 {
     private readonly Action<ViewModelBase> _navigateAction;  // For changeing view in run-time
     private readonly IDialogService? _dialogService;
+    private readonly IScalanceConfigService? _scalanceService;
 
     // Main constructor
-    public MainMenuViewModel(Action<ViewModelBase> navigateAction, IDialogService dialogService)
+    public MainMenuViewModel(Action<ViewModelBase> navigateAction, IDialogService dialogService, IScalanceConfigService scalanceService)
     {
         _navigateAction = navigateAction;
         _dialogService = dialogService;
+        _scalanceService = scalanceService;
     }
 
     // Constructor for live view Avalonii's designer
@@ -26,9 +29,9 @@ public partial class MainMenuViewModel : ViewModelBase
     private void OpenBackupConfigs()
     {
         // Open new view/window
-        if (_dialogService != null)
+        if (_dialogService != null && _scalanceService != null)
         {
-            var newPage = new BackupConfigsViewModel(_dialogService, _navigateAction);
+            var newPage = new BackupConfigsViewModel(_dialogService, _scalanceService, _navigateAction);
             _navigateAction(newPage);
         }
     }
@@ -36,6 +39,7 @@ public partial class MainMenuViewModel : ViewModelBase
     [RelayCommand]
     private void OpenNewExcelsGenerator()
     {
-        // Tutaj w przyszłości powiemy: _navigateAction(new ExcelGeneratorViewModel());
+        // TODO: Nowe okno i funkcjonalności
+        // _navigateAction(new ExcelGeneratorViewModel());
     }
 }

@@ -1,8 +1,11 @@
 ﻿using OfficeTool.Core.BackupConfigs.Models;
 using OfficeTool.Core.BackupConfigs.Services;
 using OfficeTool.Core.Shared;
+using System;
+using System.IO;
 using System.IO.Compression;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace OfficeTool.Infrastructure.BackupConfigs;
 
@@ -44,6 +47,11 @@ public class ScalanceConfigService : IScalanceConfigService
             int ip3 = parameters.StartIp[2];
             int ip4 = parameters.StartIp[3];
 
+            if (parameters.SkipBaseFile)
+            {
+                (ip3, ip4, currentNameNumber) = CalculateNextDeviceData(ip3, ip4, currentNameNumber);
+            }
+
             for (int i = 0; i < parameters.TotalFilesToGenerate; i++)
             {
                 progressReporter?.Report($"Generowanie konfiguracji: plik {i + 1} z {parameters.TotalFilesToGenerate}...");
@@ -62,13 +70,7 @@ public class ScalanceConfigService : IScalanceConfigService
                 if (File.Exists(destZipPath)) File.Delete(destZipPath);
                 ZipFile.CreateFromDirectory(tempExtractPath, destZipPath);
 
-                currentNameNumber++;
-                ip4++;
-                if (ip4 > 254)
-                {
-                    ip4 = 1;
-                    ip3++;
-                }
+                (ip3, ip4, currentNameNumber) = CalculateNextDeviceData(ip3, ip4, currentNameNumber);
             }
         }
         finally
@@ -79,6 +81,7 @@ public class ScalanceConfigService : IScalanceConfigService
             }
         }
     }
+
     private string GenerateModifiedConfig(string[] lines, string newName, string newIp, string broadcastIp)
     {
         StringBuilder sb = new StringBuilder();
@@ -148,5 +151,19 @@ public class ScalanceConfigService : IScalanceConfigService
         }
 
         return sb.ToString().TrimEnd('\n', '\r');
+    }
+
+    private (int NextIp3, int NextIp4, int NextNameNumber) CalculateNextDeviceData(int currentIp3, int currentIp4, int currentNameNumber)
+    {
+        currentNameNumber++;
+        currentIp4++;
+
+        if (currentIp4 > 254)
+        {
+            currentIp4 = 1;
+            currentIp3++;
+        }
+
+        return (currentIp3, currentIp4, currentNameNumber);
     }
 }

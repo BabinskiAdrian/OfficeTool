@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\OfficeTool.Core\OfficeTool.Core.csproj" />
+    <ProjectReference Include="..\OfficeTool.Infrastructure\OfficeTool.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

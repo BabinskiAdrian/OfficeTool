@@ -1,48 +1,35 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using OfficeTool.Ui.Services;
 using OfficeTool.Ui.ViewModels;
 using OfficeTool.Ui.Views;
 using System.Linq;
+using OfficeTool.Infrastructure.BackupConfigs;
 
-namespace OfficeTool.Ui
+namespace OfficeTool.Ui;
+
+public partial class App : Application
 {
-    public partial class App : Application
+    public override void Initialize()
     {
-        public override void Initialize()
-        {
-            AvaloniaXamlLoader.Load(this);
-        }
+        AvaloniaXamlLoader.Load(this);
+    }
 
-        public override void OnFrameworkInitializationCompleted()
+    public override void OnFrameworkInitializationCompleted()
+    {
+        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+            var dialogService = new AvaloniaDialogService();
+            var scalanceService = new ScalanceConfigService();
+
+            // Main view
+            desktop.MainWindow = new MainWindow
             {
-                var dialogService = new AvaloniaDialogService();
-
-                desktop.MainWindow = new MainWindow
-                {
-                    DataContext = new MainWindowViewModel(dialogService)
-                };
-            }
-
-            base.OnFrameworkInitializationCompleted();
+                DataContext = new MainWindowViewModel(dialogService, scalanceService)
+            };
         }
-
-        private void DisableAvaloniaDataAnnotationValidation()
-        {
-            // Get an array of plugins to remove
-            var dataValidationPluginsToRemove =
-                BindingPlugins.DataValidators.OfType<DataAnnotationsValidationPlugin>().ToArray();
-
-            // remove each entry found
-            foreach (var plugin in dataValidationPluginsToRemove)
-            {
-                BindingPlugins.DataValidators.Remove(plugin);
-            }
-        }
+        base.OnFrameworkInitializationCompleted();
     }
 }
